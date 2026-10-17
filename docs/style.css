@@ -1,0 +1,444 @@
+/*
+ * sebastianschasse.de
+ *
+ * One stylesheet for one HTML page. No classes, no ids, no JavaScript:
+ * everything is styled through elements, structure and attributes.
+ *
+ * Screen = a warm BBS terminal, dark only; every glyph and the photo glow softly.
+ * Print  = plain ink.
+ *
+ * Colours: the warm palette of Anthropic (slate, ivory, clay, kraft,
+ * manilla, oat), with ideas borrowed from 1X: soft light, no pure black
+ * or white, hierarchy by brightness instead of weight.
+ *
+ * Type: IBM VGA 9x16 (WebPlus) from The Ultimate Oldschool PC Font Pack
+ *       by VileR - https://int10h.org/oldschool-pc-fonts/
+ *       CC BY-SA 4.0 - https://creativecommons.org/licenses/by-sa/4.0/
+ *       Converted from WOFF to WOFF2; glyphs unchanged.
+ *       It is a pixel font: keep every size at 16px or 32px.
+ */
+
+@font-face {
+  font-family: "IBM VGA";
+  src: url("fonts/WebPlus_IBM_VGA_9x16.woff2") format("woff2");
+  font-display: swap;
+}
+
+/* ----------------------------------------------------------------------
+   Palette
+   ---------------------------------------------------------------------- */
+
+:root {
+  color-scheme: dark;
+
+  --mono: "IBM VGA", ui-monospace, "SF Mono", Menlo, Consolas, "DejaVu Sans Mono", monospace;
+
+  /* the screen */
+  --bg: #141413;       /* slate dark */
+  --ink: #e8e6dc;      /* ivory dark */
+  --dim: #b0aea5;      /* cloud medium */
+  --accent: #d97757;   /* clay */
+  --accent-2: #d4a27f; /* kraft */
+  --hi: #faf9f5;       /* ivory light */
+  --warm: #ebdbbc;     /* manilla */
+  --rule: #5e5d59;     /* slate light */
+  --glow: 0 0 1px rgb(250 249 245 / .3), 0 0 6px rgb(235 219 188 / .18);
+  --img-glow: drop-shadow(0 0 1px rgb(250 249 245 / .3)) drop-shadow(0 0 8px rgb(235 219 188 / .22));
+}
+
+
+/* ----------------------------------------------------------------------
+   Base
+   ---------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  color: var(--ink);
+  font: 100%/1.5 var(--mono);
+  font-synthesis: none;
+  font-variant-ligatures: none;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scrollbar-color: var(--accent) var(--bg);
+}
+
+body {
+  max-width: calc(80ch + 4rem); /* an 80-column screen */
+  margin: 0 auto;
+  padding: 3rem 2rem 4rem;
+  text-shadow: var(--glow);
+}
+
+::selection,
+::target-text {
+  background: var(--accent);
+  color: var(--bg);
+  text-shadow: none;
+}
+
+/* The VGA font has one weight and no italics: emphasis is brightness. */
+h1, h2, h3, b, strong {
+  font-weight: normal;
+}
+
+b, strong {
+  color: var(--hi);
+}
+
+em, i {
+  font-style: normal;
+  color: var(--accent-2);
+}
+
+p {
+  margin: 0 0 1.5rem;
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: .25em;
+}
+
+a:hover {
+  background: var(--accent);
+  color: var(--bg);
+  text-decoration: none;
+  text-shadow: none;
+}
+
+a:focus-visible {
+  outline: 2px dashed var(--hi);
+  outline-offset: 2px;
+}
+
+time,
+small {
+  color: var(--dim);
+  font-size: 1em;
+}
+
+abbr[title] {
+  text-decoration: none;
+}
+
+pre {
+  margin: 0;
+  font: inherit;
+  line-height: 1;
+  white-space: pre;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ----------------------------------------------------------------------
+   Header: name, portrait beside the hello
+   ---------------------------------------------------------------------- */
+
+header {
+  display: grid;
+  grid-template-columns: 24ch 1fr;
+  column-gap: 4ch;
+  align-items: start;
+}
+
+h1 {
+  grid-column: 1 / -1;
+  margin: 0 0 3rem;
+  font-size: 2rem;
+  line-height: 1.5;
+  color: var(--accent);
+  text-shadow: var(--glow);
+}
+
+header > figure {
+  grid-column: 1;
+  grid-row: 2 / span 3;
+}
+
+header > p {
+  grid-column: 2;
+}
+
+/* "Hi, I'm Sebastian." in double size, with a cursor that breathes
+   four times and then stays lit (well under five seconds). */
+header > p:first-of-type {
+  font-size: 2rem;
+  line-height: 1.5;
+  color: var(--hi);
+  text-shadow: var(--glow);
+}
+
+header > p:first-of-type::after {
+  content: "█";
+  color: var(--accent);
+  animation: breathe 1.2s ease-in-out 4 alternate;
+}
+
+@keyframes breathe {
+  to {
+    opacity: .2;
+  }
+}
+
+header > p:last-of-type {
+  color: var(--dim);
+}
+
+figure {
+  margin: 0;
+}
+
+/* ----------------------------------------------------------------------
+   Sections and NFO-style headings:  ══╡ SRE AT IONOS CLOUD ╞═════════
+   ---------------------------------------------------------------------- */
+
+section {
+  margin-top: 4.5rem;
+}
+
+h2 {
+  display: flex;
+  gap: 1ch;
+  margin: 0 0 1.5rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  color: var(--accent);
+  text-shadow: var(--glow);
+}
+
+h2::before {
+  content: "══╡";
+}
+
+h2::after {
+  content: "╞════════════════════════════════════════════════════════════════════════════════";
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ASCII art beside the words. Each piece is at most 38 columns
+   (38 x 9/16em = 21.375em): shrink it when the screen is narrower. */
+section:has(> pre) {
+  display: grid;
+  grid-template-columns: 38ch 1fr;
+  column-gap: 4ch;
+  align-items: start;
+  container-type: inline-size;
+}
+
+section:has(> pre) > h2 {
+  grid-column: 1 / -1;
+}
+
+section:has(> pre) > pre {
+  grid-column: 1;
+  grid-row: 2 / span 3;
+  font-size: min(1rem, 100cqi / 21.375);
+  color: var(--warm);
+  text-shadow: .6px 0 currentColor, -.6px 0 currentColor, var(--glow);
+}
+
+section:has(> pre) > p {
+  grid-column: 2;
+}
+
+/* ----------------------------------------------------------------------
+   The log: newest first, dot leaders between role and company
+   ---------------------------------------------------------------------- */
+
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+ol > li {
+  display: flex;
+  gap: 1ch;
+}
+
+ol > li > time {
+  flex: none;
+  width: 4ch;
+}
+
+ol > li > span {
+  display: flex;
+  flex: 1;
+  gap: 1ch;
+  min-width: 0;
+  color: var(--accent-2);
+}
+
+ol > li > span::before {
+  content: "................................................................................";
+  flex: 1;
+  min-width: 2ch;
+  overflow: hidden;
+  color: var(--rule);
+}
+
+/* ----------------------------------------------------------------------
+   Footer: colophon
+   ---------------------------------------------------------------------- */
+
+footer {
+  margin-top: 4.5rem;
+  padding-top: 1.5rem;
+  border-top: 3px double var(--rule);
+  color: var(--dim);
+}
+
+/* ----------------------------------------------------------------------
+   The screen: scanlines, a warm glow from above, and a soft vignette
+   ---------------------------------------------------------------------- */
+
+@media screen {
+  html {
+    background:
+      radial-gradient(ellipse at 50% 0%, #221e1a 0%, transparent 70%) fixed,
+      var(--bg);
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      repeating-linear-gradient(transparent 0 2px, rgb(0 0 0 / .14) 2px 3px),
+      radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / .45) 100%);
+  }
+
+  img {
+    filter: sepia(.15) brightness(.88) contrast(1.05) var(--img-glow);
+  }
+}
+
+/* ----------------------------------------------------------------------
+   Narrow screens
+   ---------------------------------------------------------------------- */
+
+@media (max-width: 47.99rem) {
+  body {
+    padding: 2rem 1rem 3rem;
+  }
+
+  header,
+  section:has(> pre) {
+    display: block;
+  }
+
+  header > figure {
+    width: 24ch;
+    margin-bottom: 2.5rem;
+  }
+
+  section:has(> pre) > pre {
+    margin-bottom: 1.5rem;
+  }
+
+  ol > li {
+    flex-wrap: wrap;
+    column-gap: 1ch;
+  }
+
+  ol > li > span {
+    flex-basis: 100%;
+    padding-left: 5ch;
+  }
+
+  ol > li > span::before {
+    display: none;
+  }
+}
+
+/* ----------------------------------------------------------------------
+   Preferences and print
+   ---------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --glow: 0 0 0 transparent;
+    --img-glow: drop-shadow(0 0 0 transparent);
+    --dim: var(--ink);
+  }
+
+  body::before {
+    content: none;
+  }
+}
+
+@media print {
+  :root {
+    --bg: #fff;
+    --ink: #000;
+    --dim: #333;
+    --accent: #000;
+    --accent-2: #000;
+    --hi: #000;
+    --warm: #000;
+    --rule: #999;
+    --glow: 0 0 0 transparent;
+  }
+
+  html,
+  body {
+    background: none;
+    box-shadow: none;
+  }
+
+  body {
+    max-width: none;
+    padding: 0;
+  }
+
+  body::before,
+  header > p:first-of-type::after {
+    content: none;
+  }
+
+  img {
+    filter: none;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a[href^="http"]::after {
+    content: " <" attr(href) ">";
+    color: var(--dim);
+  }
+
+  pre,
+  figure,
+  section {
+    break-inside: avoid;
+  }
+}
